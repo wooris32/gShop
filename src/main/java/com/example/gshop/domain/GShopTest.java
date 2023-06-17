@@ -15,6 +15,5 @@ public class GShopTest {
     @GeneratedValue
     @Column(name="id")
     private Long id;
-
     private String explain;
 }

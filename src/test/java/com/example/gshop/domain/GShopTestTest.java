@@ -25,7 +25,7 @@ public class GShopTestTest {
     @Rollback(false)
     public void testGShopTest() {
         GShopTest gShopTest = new GShopTest();
-        gShopTest.setExplain("ttttt");
+        gShopTest.setExplain("tttt111t");
 
         gShopTestRepository.save(gShopTest);
         em.flush();
