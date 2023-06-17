@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/wshop
+    username: wshop_admin
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      #ddl-auto:create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+    properties:
+      hibernate:
+        #show_sql: true
+        format_sql: true
