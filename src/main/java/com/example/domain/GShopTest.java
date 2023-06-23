@@ -1,4 +1,4 @@
-package com.example.gshop.domain;
+package com.example.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

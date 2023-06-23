@@ -1,6 +1,6 @@
-package com.example.gshop.domain;
+package com.example.domain;
 
-import com.example.gshop.repository.GShopTestRepository;
+import com.example.repository.GShopTestRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.Test;
@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class GShopTestTest {
 
+
     @Autowired
     GShopTestRepository gShopTestRepository;
 
@@ -25,7 +26,7 @@ public class GShopTestTest {
     @Rollback(false)
     public void testGShopTest() {
         GShopTest gShopTest = new GShopTest();
-        gShopTest.setExplain("tttt111t");
+        gShopTest.setExplain("test2");
 
         gShopTestRepository.save(gShopTest);
         em.flush();

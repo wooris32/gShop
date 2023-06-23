@@ -1,6 +1,6 @@
-package com.example.gshop.repository;
+package com.example.repository;
 
-import com.example.gshop.domain.GShopTest;
+import com.example.domain.GShopTest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
