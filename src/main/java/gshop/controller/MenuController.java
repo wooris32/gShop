@@ -20,4 +20,10 @@ public class MenuController {
         return "pages/item/item_list";
     }
 
+    @RequestMapping("/item-list2")
+    public String itemList2(){
+        log.info("item List2 contorller");
+        return "pages/item/item_list2";
+    }
+
 }
