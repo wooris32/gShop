@@ -2,11 +2,57 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout_common}">
+
+    <th:block layout:fragment="css">
+        <link type="text/css" rel="stylesheet" href="/dist/css/tui-grid.css"/>
+    </th:block>
+
+    <th:block layout:fragment="jsscript">
+        <script type="text/javascript" src="/dist/js/tui-grid.js"></script>
+
+        <script type="text/javascript">
+            const grid = new tui.Grid({
+                scrollX: false,
+                scrollY: false,
+                el: document.getElementById('grid'),
+                columns: [
+                    {
+                        header: 'Name',
+                        name: 'name'
+                    },
+                    {
+                        header: 'Artist',
+                        name: 'artist'
+                    },
+                    {
+                        header: 'Price',
+                        name: 'price'
+                    },
+                    {
+                        header: 'Genre',
+                        name: 'genre'
+                    }
+                ],
+                data: [
+                    {
+                        name: 'X',
+                        artist: 'Ed Sheeran',
+                        price: 20000,
+                        genre: 'Pop'
+                    },
+                    {
+                        name: 'A Head Full Of Dreams',
+                        artist: 'Coldplay',
+                        price: 25000,
+                        genre: 'Rock'
+                    }
+                ]
+            });
+        </script>
+    </th:block>
 <body>
-
-<div class="content-wrapper" layout:fragment="content">
-    item_list 를 보여줄 page
-</div>
-
+    <div class="content-wrapper" layout:fragment="content">
+        <div id="grid"></div>
+    </div>
 </body>
 </html>
