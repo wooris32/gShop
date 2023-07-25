@@ -11,10 +11,98 @@
         <script type="text/javascript" src="/dist/js/tui-grid.js"></script>
 
         <script type="text/javascript">
+            $(document).ready(async () => {
+                // 2. HTML이 수행된 뒤 함수를 호출한다.
+                await gridLoad();
+            });
+
+            const toastUiDataSource = () => {
+                return {
+                    initialRequest: true,                   // [Essential] 초기 데이터 조회를 위한 readData API 요청 여부
+                    api: {
+                        hideLoadingBar: false,              // [Options] 로딩바 숨김 여부
+                        /*
+                         * [API] 사용자 리스트를 조회합니다.
+                         * @reference: [Request] Query String / [Response] JSONObject
+                         */
+                        readData: {
+                            url: '/api/v1/admin/user',
+                            method: 'GET',
+                            initParams: {
+                                // [Option] Query String으로 보낼 데이터
+                                // perPage: 100,                // [Options] 페이지에 보여줄 개수
+                                // page: 0,                     // [Options] 시작 페이지
+                                // sortColumn: "userSq",        // [Options] Sorting 여부
+                                // sortAscending: true          // [Options] 오름 차순 여부
+                            },
+                        },
+                    },
+                }
+            };
+
+            const gridLoad = () => {
+                // 3. 그리드 생성
+                const Grid = tui.Grid;
+                const grid = new Grid({
+                    // ================================== 공통 옵션 적용 ==============================
+                    el: document.getElementById('grid'),    // [필수] Container element
+                    data: toastUiDataSource(),              // [선택] 그리드 데이터 조회
+                    columns: [
+                        // [Column-1] 사용자 아이디
+                        {
+                            header: '사용자 아이디',            // [필수] 컬럼 이름
+                            name: 'userId',                 // [필수] 컬럼 매핑 이름 값
+                            sortable: true,                 // [선택] 컬럼의 정렬 여부
+                            resizable: true,                // [선택] 컬럼의 리사이즈 여부 옵션
+                            editor: 'text',                 // [선택] 수정 옵션
+                            // [선택] 필터 옵션
+                            filter: {
+                                type: 'text',
+                                showApplyBtn: true,
+                                showClearBtn: true
+                            },
+                            // [선택] 유효성 검증 옵션
+                            validation: {
+                                required: true,
+                                dataType: 'string',
+                                regExp: /^[a-z|A-Z||0-9 ]*$/, //    [정규식] 영문 숫자에 대한 조합만 가능
+                            },
+                        },
+                        // [Column-2] 사용자 이름
+                        {
+                            header: '사용자 이름',             // [필수] 컬럼 이름
+                            name: 'userNm',                 // [필수] 컬럼 매핑 이름 값
+                            sortable: true,                 // [선택] 컬럼의 정렬 여부
+                            resizable: true,                // [선택] 컬럼의 리사이즈 여부 옵션
+                            editor: 'text',                 // [선택] 수정 옵션
+                            // [선택] 필터 옵션
+                            filter: {
+                                type: 'text',
+                                showApplyBtn: true,
+                                showClearBtn: true
+                            },
+                            // [선택] 유효성 검증 옵션
+                            validation: {
+                                required: true,
+                                dataType: 'string',
+                                regExp: /^[a-z|A-Z|ㄱ-ㅎ|가-힣|0-9 ]*$/, // [정규식] 특수문자를 제외한 공백포함 사용 가능
+                            },
+                        }]
+                });
+
+                /**
+                 * [Event] 성공 / 실패와의 관계 없이 '응답'을 받은 경우 반환되는 값
+                 */
+                grid.on('response', (ev) => responseList(ev));
+
+                 // 페이지당 10개씩 보여지고 페이지 새로고침을 수행합니다.
+            };
+
             const grid = new tui.Grid({
                 scrollX: false,
                 scrollY: false,
                 el: document.getElementById('grid'),
+                data: toastUiDataSource(),
                 columns: [
                     {
                         header: 'Name',
@@ -32,22 +120,34 @@
                         header: 'Genre',
                         name: 'genre'
                     }
-                ],
-                data: [
-                    {
-                        name: 'X',
-                        artist: 'Ed Sheeran',
-                        price: 20000,
-                        genre: 'Pop'
-                    },
-                    {
-                        name: 'A Head Full Of Dreams',
-                        artist: 'Coldplay',
-                        price: 25000,
-                        genre: 'Rock'
-                    }
                 ]
             });
+
+            const responseList = (ev) => {
+                const {response} = ev.xhr;
+                const responseObj = JSON.parse(response);
+
+                const {result, data: {contents}} = responseObj;
+
+                if (result) {
+                    console.log(typeof data);
+                    console.log(contents);
+                    // select
+
+                    if (contents.length === undefined) {
+                        if (contents.type === "insert") {
+                            alert("사용자 등록이 완료되었습니다.");
+                        }
+                        if (contents.type === "update") {
+                            alert("사용자 수정이 완료되었습니다.")
+                        }
+                    }
+                } else alert("해당 처리가 되지 않았습니다. 관리자에게 문의해주세요.")
+
+                console.log('result : ', responseObj.result, " data: ", responseObj.data);
+            }
+
+
         </script>
     </th:block>
 <body>

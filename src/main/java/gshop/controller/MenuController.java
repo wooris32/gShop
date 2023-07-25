@@ -16,7 +16,6 @@ public class MenuController {
 
     @RequestMapping("/item-list")
     public String itemList(){
-        log.info("item List contorller");
         return "pages/item/item_list";
     }
 
